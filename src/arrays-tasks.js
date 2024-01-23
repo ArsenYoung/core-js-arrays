@@ -38,18 +38,20 @@ function getIntervalArray(start, end) {
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
 function sumArrays(arr1, arr2) {
-  const maxLength = arr1.length > arr2.length ? arr1.length : arr2.length;
-  const resultArr = [];
-  for (let i = 0; i < maxLength; i += 1) {
-    if (i < arr1.length && i < arr2.length) {
-      resultArr.push(arr1.at(i) + arr2.at(i));
-    } else if (i < arr1.length) {
-      resultArr.push(arr1.at(i));
-    } else if (i < arr2.length) {
-      resultArr.push(arr2.at(i));
-    }
+  if (arr1.length > arr2.length) {
+    return arr1.map((item, index) => {
+      if (arr2[index]) {
+        return arr1[index] + arr2[index];
+      }
+      return arr1[index];
+    });
   }
-  return resultArr;
+  return arr2.map((item, index) => {
+    if (arr1[index]) {
+      return arr1[index] + arr2[index];
+    }
+    return arr2[index];
+  });
 }
 
 /**
@@ -65,9 +67,7 @@ function sumArrays(arr1, arr2) {
  *    findElement([0, 1, 2, 3, 4, 5], 5) => 5
  */
 function findElement(arr, value) {
-  return arr.findIndex((item) => {
-    return item === value;
-  });
+  return arr.indexOf(value);
 }
 
 /**
@@ -85,20 +85,12 @@ function findElement(arr, value) {
  *    findAllOccurrences([ true, 0, 1, 'true' ], true) => 1
  */
 function findAllOccurrences(arr, item) {
-  let count = 0;
-  let startIndex = 0;
-  let copyOfArr = arr.slice();
-  while (startIndex >= 0) {
-    startIndex = copyOfArr.findIndex((elem) => {
-      return elem === item;
-    });
-    if (startIndex >= 0) {
-      count += 1;
-      copyOfArr = copyOfArr.slice(startIndex + 1);
+  return arr.reduce((occur, elem) => {
+    if (elem === item) {
+      return occur + 1;
     }
-  }
-
-  return count;
+    return occur;
+  }, 0);
 }
 
 /**
@@ -296,13 +288,7 @@ function toStringList(arr) {
  *   distinct([]) => []
  */
 function distinct(arr) {
-  const newArr = [];
-  for (let i = 0; i < arr.length; i += 1) {
-    if (!newArr.includes(arr.at(i))) {
-      newArr.push(arr.at(i));
-    }
-  }
-  return newArr;
+  return Array.from(new Set(arr));
 }
 
 /**
@@ -318,17 +304,8 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(n, size) {
-  const result = [];
-
-  for (let i = 0; i < size; i += 1) {
-    if (n > 1) {
-      result.push(createNDimensionalArray(n - 1, size));
-    } else {
-      result.push(0);
-    }
-  }
-  return result;
+function createNDimensionalArray(/* n, size */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -585,7 +562,7 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(nums) {
+function findLongestIncreasingSubsequence(/* nums */) {
   throw new Error('Not implemented');
 }
 
