@@ -21,11 +21,7 @@
  *    getIntervalArray(3, 3) => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  const interval = [];
-  for (let i = start; i <= end; i += 1) {
-    interval.push(i);
-  }
-  return interval;
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
 }
 
 /**
@@ -444,8 +440,18 @@ function generateOdds(len) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  let resArr = arr;
+
+  for (let i = 0; i < indices.length; i += 1) {
+    resArr = resArr[indices[i]];
+
+    if (!Array.isArray(resArr)) {
+      return resArr;
+    }
+  }
+
+  return resArr;
 }
 
 /**
@@ -579,7 +585,7 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
+function findLongestIncreasingSubsequence(nums) {
   throw new Error('Not implemented');
 }
 
@@ -725,8 +731,14 @@ function sortDigitNamesByNumericOrder(arr) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const newArr = [];
+  let index;
+  if (arr.length % 2 !== 0) {
+    index = Math.ceil(arr.length / 2) - 1;
+    return newArr.concat(arr.slice(index + 1), arr[index], arr.slice(0, index));
+  }
+  return newArr.concat(arr.slice(arr.length / 2), arr.slice(0, arr.length / 2));
 }
 
 module.exports = {
